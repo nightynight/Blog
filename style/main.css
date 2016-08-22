@@ -1,0 +1,110 @@
+body{
+	padding:20px;
+}
+.float-left{
+	float: left;
+}
+.float-right{
+	float: right;
+}
+.float-clear{
+	clear: both;
+}
+a{text-decoration: none;}
+
+
+
+#new-article ul li{
+    margin-bottom: 10px;
+}
+
+
+
+.ic-pull{
+	width: 15px;
+	height: 8px;
+	display: inline-block;
+	background-image: url(../images/pull.png);
+	background-repeat:no-repeat;
+	background-size: contain; 
+	float: right;
+	margin-top: 12px;
+	margin-right: 5px;
+}
+
+#nav{
+	padding: 0 20px 0 20px;
+    margin-top: 0px; 
+}
+
+.li-firstMenu{
+	list-style-type:none;
+    border-bottom: solid 1px #ddd;
+}
+	.li-firstMenu ul{
+		padding-left: 0px;
+	}
+	.li-firstMenu ul li{
+		list-style-type:none; 
+	}
+.li-secondMenu{
+    border-bottom: solid 1px #eee;
+}
+
+.ul-secondMenu{
+	display: none;
+}
+.ul-thirdMenu{
+	display: none;
+}
+.ul-fourthMenu{
+	display: none;
+}
+
+.span-firstMenu{
+	padding-left: 10px;
+	height: 30px;
+	display: inline-block;
+	line-height: 30px;
+}
+.span-secondMenu{
+	padding-left: 20px;
+	height: 28px;
+	display: inline-block;
+	line-height: 28px;
+}
+.span-thirdMenu{
+	padding-left: 30px;
+	height: 25px;
+	display: inline-block;
+	line-height: 25px;
+}
+.span-fourthMenu{
+	padding-left: 40px;
+	height: 22px;
+	display: inline-block;
+	line-height: 22px;
+}
+
+.div-secondMenu{
+   background: #f4f4f4;
+}
+   
+.div-thirdMenu{
+    background: #f9f9f9;
+}
+
+.div-fourthMenu{
+    background: #fcfcfc;
+}
+
+#new-article{
+    margin-bottom: 30px;
+}
+
+#blog-introduction p{
+    text-indent:2em;
+}
+#blog-introduction h2{
+    margin-top: 16px;
+}
