@@ -63,7 +63,68 @@ public class FileParse {
 		raf.write(utf);
 	}
 	
+	//以下方法为获取最新三条blog
+	public static List<File> fileList=new ArrayList<File>();
+	public static List<File> getLastThreeBlogs(File dir) throws IOException {
+		addToList(dir);
+		File[] files=fileList.toArray(new File[fileList.size()]);
+		range(files);
+		List<File> list=new ArrayList<File>();
+		try {
+			for(int i=files.length-1;i>files.length-4;i--){
+				list.add(files[i]);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return list;
+	}
+	public static void addToList(File dir) throws IOException {
+		if(!dir.exists())
+			throw new IllegalArgumentException("目录"+dir+"不存在.");
+		if(!dir.isDirectory())
+			throw new IllegalArgumentException(dir+"不是目录.");
+		
+		File[] files=dir.listFiles();
+		if(files!=null && files.length>0){
+			for (File file : files) {
+				if(file.isDirectory())
+					addToList(file);
+				else if(!file.getName().startsWith(".")) {
+					fileList.add(file);
+				}
+			}
+		}
+	}
+	public static void range(File[] files) {
+		File temp;
+		int cursor=0;
+		for(int i=files.length-1;i>=0;i--){
+			temp=files[i];
+			cursor=i;
+			for(int j=i;j>=0;j--){
+				if(files[j].lastModified()>temp.lastModified()){
+					temp=files[j];
+					cursor=j;
+				}
+			}
+			swap(files,i,cursor);
+		}
+	}
+	public static void swap(File[] files,int a,int b) {
+		File temp=files[a];
+		files[a]=files[b];
+		files[b]=temp;
+	}
+	
+	
+	
+	
+	
+	//下面开始解析生成html文件
 	public static void MakeHtml(String projectPath) throws IOException {
+		File file=new File(projectPath+"all-category");
 		String result="";
 		result+=
 			"<html>\n"+
@@ -79,15 +140,19 @@ public class FileParse {
 	    	"		<div class=\"float-left\" style=\"width: 20%;\">\n"+
     		"			<div id=\"new-article\">"+
 			"				<p>最新文章</p>\n"+
-			"				<ul>\n"+
-			"					<li><a href=\"./all-category/Java/JavaListener.html\">JavaListener</a></li>\n"+
+			"				<ul>\n";
+		
+		result=MakeLastBlogList(file, result);
+
+		result+=
 			"				</ul>\n"+
     		"			</div>\n"+
     		"			<div id=\"all-category\">\n"+
 			"				<p>所有文章分类</p>\n"+
 			"				<ul id=\"nav\">\n";
-		File file=new File(projectPath+"all-category");
+		
 		result=FileParse.MakeUl(file,result);
+		
 		result+=
 			"				</ul>\n"+
 			"			</div>\n"+
@@ -106,6 +171,18 @@ public class FileParse {
     	Write(new File(projectPath+"index.html"), result);
 	}
 	
+	//生成最新文章代码
+	public static String MakeLastBlogList(File dir,String result) throws IOException {
+		List<File> list=getLastThreeBlogs(dir);
+		for(int i=0;i<list.size();i++){
+			result+=
+					"<li><a href=\"./all-category"+list.get(i).getPath().split("ll-category")[1]+"\">"+list.get(i).getName()+"</a></li>\n";
+		}
+		
+		return result;
+	}
+	
+	//生成所有文章分类代码
 	public static String MakeUl(File dir,String result) throws IOException {
 		File[] files=dir.listFiles();
 		if(files!=null && files.length>0){
